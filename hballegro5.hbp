@@ -1,0 +1,29 @@
+# Project build file
+
+-hblib
+-inc
+
+-olib/${hb_plat}/${hb_comp}/${hb_name}
+
+-w3 -es2 -gc3
+
+-depurlbase=allegro5:https://github.com/liballeg/allegro5
+-depurlbase=allegro5:https://liballeg.org/
+-depkeyhead=allegro5:allegro5.h
+-depcontrol=allegro5:${HB_WITH_ALLEGRO5}
+-depincpath=allegro5:/usr/include/allegro5
+-depincpath=allegro5:/usr/local/include/allegro5
+-depimplibs=allegro5:../bin/allegro-5.2.dll
+-depimplibs=allegro5:../lib/liballegro.dll.a
+-depimplibd=allegro5:allegro5
+-depfinish=allegro5
+
+-iinclude
+
+-hbx=include/${hb_name}.hbx
+
+src/*.c
+src/*.prg
+
+$hb_pkg_dynlib.hbm
+$hb_pkg_install.hbm

@@ -1,0 +1,7 @@
+# hb-allegro5
+*.exe
+*.bak
+*.hbx
+*.log
+lib
+tmp
