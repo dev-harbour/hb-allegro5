@@ -21,6 +21,11 @@ PROCEDURE Main()
    al_install_mouse()
    al_set_mouse_wheel_precision( 150 )
    al_install_keyboard()
+   IF( al_is_keyboard_installed() )
+      OutStd( e"Keyboard instaled!\n" )
+   ELSE
+      OutStd( e"Keyboard instaled error...\n" )
+   ENDIF
 
    al_set_new_display_flags( ALLEGRO_WINDOWED + ALLEGRO_RESIZABLE + ALLEGRO_OPENGL )
    al_set_new_display_option( ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST )
@@ -45,20 +50,26 @@ PROCEDURE Main()
    al_register_event_source( pEvent_queue, al_get_mouse_event_source() )
    al_register_event_source( pEvent_queue, al_get_keyboard_event_source() )
 
-   WHILE( .T. )
+   WHILE( nEvent != ALLEGRO_EVENT_DISPLAY_CLOSE  .AND. nEvent != ALLEGRO_KEY_ESCAPE )
 
       al_init_timeout( @timeout, 0.06 )
 
       lGet_event := al_wait_for_event_until( pEvent_queue, @nEvent, @timeout )
 
-      IF( lGet_event .AND. nEvent == ALLEGRO_EVENT_DISPLAY_CLOSE )
-         EXIT
-      ENDIF
-
       IF( lGet_event )
+         SWITCH nEvent
+            CASE ALLEGRO_EVENT_KEY_DOWN
+               OutStd( e"Down\n" )
+               EXIT
+            CASE ALLEGRO_EVENT_KEY_UP
+               OutStd( e"Up\n" )
+               EXIT
+         ENDSWITCH
+
          WHILE( lGet_event )
             lGet_event := al_get_next_event( pEvent_queue, @nEvent )
          ENDDO
+
       ENDIF
 
       al_clear_to_color( { 30 / 255, 69 / 255, 34 / 255, 1.0 } )
@@ -69,5 +80,6 @@ PROCEDURE Main()
 
    al_destroy_display( pDisplay )
    al_destroy_event_queue( pEvent_queue )
+   al_uninstall_keyboard();
 
    RETURN
